@@ -1,6 +1,5 @@
--- ============================================
--- OLTP ŞEMASI (eticaret_oltp veritabanında çalıştırılmalı)
--- ============================================
+
+-- OLTP ŞEMASI 
 
 -- 1. KATEGORİ tablosu
 CREATE TABLE kategori (

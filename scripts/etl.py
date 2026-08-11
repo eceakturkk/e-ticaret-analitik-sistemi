@@ -13,7 +13,7 @@ from sqlalchemy import create_engine
 
 # ---------------------------------------------------------
 # 1. VERİTABANI BAĞLANTILARI
-# ---------------------------------------------------------
+
 DB_USER = "eticaret"
 DB_PASS = "eticaret123"
 DB_HOST = "localhost"
@@ -36,7 +36,7 @@ print("ETL süreci başlıyor...\n")
 
 # ---------------------------------------------------------
 # 2. EXTRACT — OLTP'den ham veriyi çek
-# ---------------------------------------------------------
+
 df_kategori_src = pd.read_sql("SELECT * FROM kategori", engine_oltp)
 df_urun_src = pd.read_sql("SELECT * FROM urun", engine_oltp)
 df_musteri_src = pd.read_sql("SELECT * FROM musteri", engine_oltp)
@@ -47,7 +47,7 @@ print("Extract tamamlandı: OLTP'den veriler çekildi.")
 
 # ---------------------------------------------------------
 # 3. TRANSFORM + LOAD — dim_musteri
-# ---------------------------------------------------------
+
 df_dim_musteri = df_musteri_src[["musteri_id", "ad_soyad", "sehir", "yas_grubu"]].copy()
 df_dim_musteri["kayit_yili"] = pd.to_datetime(df_musteri_src["kayit_tarihi"]).dt.year
 df_dim_musteri.to_sql("dim_musteri", engine_dw, if_exists="append", index=False)
@@ -55,7 +55,7 @@ print(f"dim_musteri yüklendi: {len(df_dim_musteri)} kayıt.")
 
 # ---------------------------------------------------------
 # 4. TRANSFORM + LOAD — dim_urun
-# ---------------------------------------------------------
+
 df_urun_merged = df_urun_src.merge(df_kategori_src, on="kategori_id", how="left")
 df_dim_urun = df_urun_merged[["urun_id", "urun_adi", "kategori_adi"]].copy()
 df_dim_urun.to_sql("dim_urun", engine_dw, if_exists="append", index=False)
@@ -63,7 +63,7 @@ print(f"dim_urun yüklendi: {len(df_dim_urun)} kayıt.")
 
 # ---------------------------------------------------------
 # 5. TRANSFORM + LOAD — dim_zaman
-# ---------------------------------------------------------
+
 tarihler = pd.to_datetime(df_siparis_src["siparis_tarihi"]).dt.date
 tekil_tarihler = pd.Series(tarihler.unique())
 tekil_tarihler = pd.to_datetime(tekil_tarihler).sort_values().reset_index(drop=True)
@@ -85,7 +85,7 @@ tarih_to_id = dict(zip(df_dim_zaman_db["tarih"], df_dim_zaman_db["tarih_id"]))
 
 # ---------------------------------------------------------
 # 6. TRANSFORM + LOAD — fact_siparis
-# ---------------------------------------------------------
+
 # siparis_detay -> siparis (tarih, musteri, durum bilgisi için) birleştiriliyor
 df_fact = df_siparis_detay_src.merge(
     df_siparis_src[["siparis_id", "musteri_id", "siparis_tarihi", "durum"]],
@@ -106,4 +106,4 @@ df_fact_final = df_fact[[
 df_fact_final.to_sql("fact_siparis", engine_dw, if_exists="append", index=False)
 print(f"fact_siparis yüklendi: {len(df_fact_final)} kayıt.")
 
-print("\n✅ ETL süreci başarıyla tamamlandı! Veri ambarı dolduruldu.")
+print("\n ETL süreci başarıyla tamamlandı! Veri ambarı dolduruldu.")

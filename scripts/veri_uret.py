@@ -16,7 +16,7 @@ from sqlalchemy import create_engine
 
 # ---------------------------------------------------------
 # 1. VERİTABANI BAĞLANTISI
-# ---------------------------------------------------------
+
 DB_USER = "eticaret"
 DB_PASS = "eticaret123"
 DB_HOST = "localhost"
@@ -30,7 +30,7 @@ random.seed(42)
 
 # ---------------------------------------------------------
 # 2. KATEGORİ VERİSİ
-# ---------------------------------------------------------
+
 kategoriler = [
     "Elektronik", "Giyim", "Ev & Yaşam", "Kozmetik",
     "Spor & Outdoor", "Kitap & Hobi", "Anne & Bebek", "Süpermarket"
@@ -44,7 +44,7 @@ kategori_ids = pd.read_sql("SELECT kategori_id, kategori_adi FROM kategori", eng
 
 # ---------------------------------------------------------
 # 3. ÜRÜN VERİSİ
-# ---------------------------------------------------------
+
 # Kategoriye göre gerçekçi fiyat aralıkları
 fiyat_araliklari = {
     "Elektronik": (500, 25000),
@@ -81,7 +81,7 @@ urun_df = pd.read_sql("SELECT urun_id, fiyat FROM urun", engine)
 
 # ---------------------------------------------------------
 # 4. MÜŞTERİ VERİSİ
-# ---------------------------------------------------------
+
 yas_gruplari = ["18-24", "25-34", "35-44", "45-54", "55+"]
 sehirler = ["İstanbul", "Ankara", "İzmir", "Bursa", "Antalya", "Adana", "Konya", "Gaziantep"]
 
@@ -108,7 +108,7 @@ urun_ids = urun_df["urun_id"].tolist()
 
 # ---------------------------------------------------------
 # 5. SİPARİŞ VE SİPARİŞ DETAY VERİSİ
-# ---------------------------------------------------------
+
 durumlar = ["Tamamlandı", "Tamamlandı", "Tamamlandı", "Tamamlandı", "İptal", "İade"]
 
 n_siparis = 800
@@ -147,4 +147,4 @@ df_siparis_detay = pd.DataFrame(siparis_detay_kayitlari)
 df_siparis_detay.to_sql("siparis_detay", engine, if_exists="append", index=False)
 print(f"{len(df_siparis_detay)} sipariş detay kaydı eklendi.")
 
-print("\n✅ Tüm örnek veriler başarıyla yüklendi!")
+print("\n Tüm örnek veriler başarıyla yüklendi!")

@@ -30,9 +30,7 @@ CREATE TABLE dim_urun (
     kategori_adi    VARCHAR(100)
 );
 
--- ============================================
 -- FACT TABLOSU
--- ============================================
 
 -- 4. fact_siparis (her satır = bir sipariş kalemi)
 CREATE TABLE fact_siparis (

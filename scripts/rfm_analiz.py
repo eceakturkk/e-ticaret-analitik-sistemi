@@ -1,7 +1,4 @@
 """
-E-Ticaret Analitik Sistemi
-RFM Analiz Scripti
-
 Bu script:
 - Her müşteri için Recency (yakınlık), Frequency (sıklık), Monetary (parasal değer) hesaplar
 - Her ölçütü 1-5 arası puanlar (NTILE mantığıyla, pandas qcut kullanarak)
@@ -13,7 +10,6 @@ import pandas as pd
 from datetime import datetime
 from sqlalchemy import create_engine
 
-# ---------------------------------------------------------
 # 1. VERİTABANI BAĞLANTISI
 # ---------------------------------------------------------
 DB_USER = "eticaret"
@@ -25,7 +21,6 @@ engine_dw = create_engine(f"postgresql+psycopg2://{DB_USER}:{DB_PASS}@{DB_HOST}:
 
 print("RFM analizi başlıyor...\n")
 
-# ---------------------------------------------------------
 # 2. VERİYİ ÇEK (sadece tamamlanan siparişler)
 # ---------------------------------------------------------
 df = pd.read_sql("""
@@ -44,7 +39,7 @@ print(f"{len(df)} sipariş kalemi okundu.")
 df["tarih"] = pd.to_datetime(df["tarih"])
 bugun = pd.Timestamp(datetime.now().date())
 
-# ---------------------------------------------------------
+
 # 3. MÜŞTERİ BAZLI RFM DEĞERLERİNİ HESAPLA
 # ---------------------------------------------------------
 rfm = df.groupby("musteri_id").agg(
@@ -57,7 +52,7 @@ rfm["recency_gun"] = (bugun - rfm["son_siparis_tarihi"]).dt.days
 
 print(f"{len(rfm)} müşteri için RFM değerleri hesaplandı.")
 
-# ---------------------------------------------------------
+
 # 4. 1-5 ARASI PUANLAMA (qcut ile 5 eşit dilime bölüyoruz)
 # ---------------------------------------------------------
 # Recency: DÜŞÜK gün sayısı = İYİ (yakın zamanda alışveriş yapmış) -> puanlama TERS çevriliyor
@@ -75,7 +70,7 @@ rfm["rfm_skor"] = (
     rfm["r_skor"].astype(str) + rfm["f_skor"].astype(str) + rfm["m_skor"].astype(str)
 )
 
-# ---------------------------------------------------------
+
 # 5. SEGMENT ATAMA (basit kural tabanlı mantık)
 # ---------------------------------------------------------
 def segment_belirle(row):
@@ -96,7 +91,7 @@ def segment_belirle(row):
 
 rfm["segment"] = rfm.apply(segment_belirle, axis=1)
 
-# ---------------------------------------------------------
+
 # 6. YÜKLE — rfm_analiz tablosuna yaz
 # ---------------------------------------------------------
 rfm_final = rfm[[
@@ -107,9 +102,8 @@ rfm_final = rfm[[
 rfm_final["monetary"] = rfm_final["monetary"].round(2)
 
 rfm_final.to_sql("rfm_analiz", engine_dw, if_exists="append", index=False)
-print(f"\n✅ {len(rfm_final)} müşteri için RFM analizi 'rfm_analiz' tablosuna yazıldı.")
+print(f"\n {len(rfm_final)} müşteri için RFM analizi 'rfm_analiz' tablosuna yazıldı.")
 
-# ---------------------------------------------------------
 # 7. ÖZET RAPOR
 # ---------------------------------------------------------
 print("\n--- Segment Dağılımı ---")

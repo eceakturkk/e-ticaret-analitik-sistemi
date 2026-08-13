@@ -1,6 +1,5 @@
--- ============================================
--- RFM ANALİZ TABLOSU (eticaret_dw veritabanında çalıştırılmalı)
--- ============================================
+
+-- RFM ANALİZ TABLOSU 
 
 CREATE TABLE rfm_analiz (
     rfm_id          SERIAL PRIMARY KEY,

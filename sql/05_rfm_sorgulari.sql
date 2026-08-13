@@ -1,7 +1,6 @@
--- ============================================
--- RFM ANALİZ SORGULARI (eticaret_dw veritabanında çalıştırılır)
+
+-- RFM ANALİZ SORGULARI 
 -- Analiz scriptinin (scripts/rfm_analiz.py) ürettiği rfm_analiz tablosu üzerinden çalışır
--- ============================================
 
 -- 1. Müşteri Segment Dağılımı
 SELECT 

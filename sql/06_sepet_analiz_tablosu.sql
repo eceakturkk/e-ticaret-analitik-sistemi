@@ -1,7 +1,5 @@
--- ============================================
+
 -- SEPET ANALİZİ (MARKET BASKET ANALYSIS) TABLOSU
--- (eticaret_dw veritabanında çalıştırılmalı)
--- ============================================
 
 CREATE TABLE sepet_analiz_kurallari (
     kural_id        SERIAL PRIMARY KEY,

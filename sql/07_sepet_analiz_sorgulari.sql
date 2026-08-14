@@ -1,8 +1,6 @@
--- ============================================
--- SEPET ANALİZİ SORGULARI (eticaret_dw veritabanında çalıştırılır)
+
+-- SEPET ANALİZİ SORGULARI
 -- Analiz scriptinin (scripts/sepet_analizi.py) ürettiği
--- sepet_analiz_kurallari tablosu üzerinden çalışır
--- ============================================
 
 -- En güçlü birliktelik kuralları (lift'e göre)
 SELECT 

@@ -1,5 +1,4 @@
 """
-E-Ticaret Analitik Sistemi
 Kategori Bazlı Sepet Analizi
 
 Bu script, ürün bazlı sepet analizinin (sepet_analizi.py) yaşadığı
@@ -28,8 +27,7 @@ MIN_CONFIDENCE = 0.3
 
 print("Kategori bazlı sepet analizi başlıyor...\n")
 
-# ---------------------------------------------------------
-# 1. VERİYİ ÇEK — bu sefer urun_adi değil, kategori_adi
+# 1. VERİYİ ÇEK —  kategori_adi
 # ---------------------------------------------------------
 df = pd.read_sql("""
     SELECT DISTINCT
@@ -41,13 +39,12 @@ df = pd.read_sql("""
 """, engine_dw)
 
 # DISTINCT kullandık çünkü bir siparişte aynı kategoriden 2 ürün olabilir,
-# biz sadece "bu siparişte bu kategori var mı yok mu" bilgisini istiyoruz
 
 print(f"{len(df)} sipariş-kategori satırı okundu.")
 print(f"{df['siparis_id'].nunique()} tekil sipariş (sepet) bulundu.")
 print(f"{df['kategori_adi'].nunique()} farklı kategori var.")
 
-# ---------------------------------------------------------
+
 # 2. SEPET FORMATINA DÖNÜŞTÜR
 # ---------------------------------------------------------
 sepetler = df.groupby("siparis_id")["kategori_adi"].apply(list).tolist()
@@ -58,7 +55,7 @@ df_encoded = pd.DataFrame(te_array, columns=te.columns_)
 
 print(f"Sepet matrisi oluşturuldu: {df_encoded.shape[0]} sepet x {df_encoded.shape[1]} kategori.")
 
-# ---------------------------------------------------------
+
 # 3. APRIORI + ASSOCIATION RULES
 # ---------------------------------------------------------
 frequent_itemsets = apriori(df_encoded, min_support=MIN_SUPPORT, use_colnames=True)
@@ -81,9 +78,9 @@ print(f"{len(rules_final)} kategori birlikteliği kuralı bulundu.\n")
 
 if len(rules_final) > 0:
     rules_final.to_sql("kategori_sepet_kurallari", engine_dw, if_exists="append", index=False)
-    print(f"✅ {len(rules_final)} kural 'kategori_sepet_kurallari' tablosuna yazıldı.\n")
+    print(f" {len(rules_final)} kural 'kategori_sepet_kurallari' tablosuna yazıldı.\n")
 
     print("--- Tüm kategori birliktelik kuralları (lift'e göre) ---")
     print(rules_final.to_string(index=False))
 else:
-    print("⚠️  Eşikleri karşılayan kural bulunamadı, MIN_SUPPORT/MIN_CONFIDENCE düşürülebilir.")
+    print(" Eşikleri karşılayan kural bulunamadı, MIN_SUPPORT/MIN_CONFIDENCE düşürülebilir.")

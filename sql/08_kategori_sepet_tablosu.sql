@@ -1,9 +1,5 @@
--- ============================================
+
 -- KATEGORİ BAZLI SEPET ANALİZİ TABLOSU
--- (eticaret_dw veritabanında çalıştırılmalı)
--- Ürün bazlı sepet analizinin daha güvenilir/istatistiksel olarak
--- anlamlı hali - az kategori sayısı sayesinde daha yoğun veri
--- ============================================
 
 CREATE TABLE kategori_sepet_kurallari (
     kural_id        SERIAL PRIMARY KEY,

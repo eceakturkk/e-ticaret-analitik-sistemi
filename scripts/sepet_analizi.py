@@ -14,7 +14,6 @@ from sqlalchemy import create_engine
 from mlxtend.frequent_patterns import apriori, association_rules
 from mlxtend.preprocessing import TransactionEncoder
 
-# ---------------------------------------------------------
 # 1. VERİTABANI BAĞLANTISI
 # ---------------------------------------------------------
 DB_USER = "eticaret"
@@ -30,7 +29,6 @@ MIN_CONFIDENCE = 0.02   # A alındığında B'nin alınma olasılığı en az %2
 
 print("Sepet analizi başlıyor...\n")
 
-# ---------------------------------------------------------
 # 2. VERİYİ ÇEK (sadece tamamlanan siparişler)
 # ---------------------------------------------------------
 df = pd.read_sql("""
@@ -45,7 +43,6 @@ df = pd.read_sql("""
 print(f"{len(df)} sipariş kalemi okundu.")
 print(f"{df['siparis_id'].nunique()} tekil sipariş (sepet) bulundu.")
 
-# ---------------------------------------------------------
 # 3. SEPET FORMATINA DÖNÜŞTÜR
 # ---------------------------------------------------------
 # Her sipariş_id için, o siparişte geçen ürünlerin listesini oluşturuyoruz
@@ -59,7 +56,7 @@ df_encoded = pd.DataFrame(te_array, columns=te.columns_)
 
 print(f"Sepet matrisi oluşturuldu: {df_encoded.shape[0]} sepet x {df_encoded.shape[1]} ürün.")
 
-# ---------------------------------------------------------
+
 # 4. APRIORI ALGORİTMASI - SIK GÖRÜLEN ÜRÜN KOMBİNASYONLARI
 # ---------------------------------------------------------
 frequent_itemsets = apriori(df_encoded, min_support=MIN_SUPPORT, use_colnames=True)
@@ -72,7 +69,7 @@ print("Kombinasyon büyüklüğü dağılımı:")
 print(frequent_itemsets["boyut"].value_counts().sort_index().to_string())
 
 if len(frequent_itemsets) == 0:
-    print("\n⚠️  Hiç kombinasyon bulunamadı. MIN_SUPPORT değerini düşürüp tekrar dene.")
+    print("\n Hiç kombinasyon bulunamadı. MIN_SUPPORT değerini düşürüp tekrar dene.")
 else:
     # ---------------------------------------------------------
     # 5. ASSOCIATION RULES (BİRLİKTELİK KURALLARI) ÇIKAR
@@ -93,14 +90,14 @@ else:
 
     print(f"{len(rules_final)} birliktelik kuralı bulundu.")
 
-    # ---------------------------------------------------------
+    
     # 6. YÜKLE — sepet_analiz_kurallari tablosuna yaz
     # ---------------------------------------------------------
     if len(rules_final) > 0:
         rules_final.to_sql("sepet_analiz_kurallari", engine_dw, if_exists="append", index=False)
-        print(f"\n✅ {len(rules_final)} kural 'sepet_analiz_kurallari' tablosuna yazıldı.")
+        print(f"\n {len(rules_final)} kural 'sepet_analiz_kurallari' tablosuna yazıldı.")
 
         print("\n--- En güçlü 5 ilişki (lift'e göre) ---")
         print(rules_final.head(5).to_string(index=False))
     else:
-        print("\n⚠️  Eşik değerlerini karşılayan kural bulunamadı. MIN_CONFIDENCE değerini düşürüp tekrar dene.")
+        print("\n Eşik değerlerini karşılayan kural bulunamadı. MIN_CONFIDENCE değerini düşürüp tekrar dene.")

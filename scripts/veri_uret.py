@@ -1,7 +1,4 @@
 """
-E-Ticaret Analitik Sistemi
-Örnek Veri Üretme Scripti
-
 Bu script:
 - Kategori, ürün, müşteri, sipariş ve sipariş detay verilerini sahte ama gerçekçi şekilde üretir
 - Doğrudan PostgreSQL (eticaret_oltp) veritabanına yükler

@@ -1,7 +1,4 @@
 """
-E-Ticaret Analitik Sistemi
-Sepet Analizi (Market Basket Analysis) Scripti
-
 Bu script:
 - Her siparişi bir "sepet" olarak ele alır
 - Apriori algoritmasıyla sık birlikte satılan ürün kombinasyonlarını bulur

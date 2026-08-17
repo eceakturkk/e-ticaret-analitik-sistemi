@@ -1,5 +1,3 @@
-
--- KATEGORİ BAZLI SEPET ANALİZİ SORGUSU 
 -- Analiz scriptinin (scripts/kategori_sepet_analizi.py) ürettiği
 -- kategori_sepet_kurallari tablosu üzerinden çalışır
 

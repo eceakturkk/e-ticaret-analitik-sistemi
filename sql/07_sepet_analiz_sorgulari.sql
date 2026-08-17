@@ -1,7 +1,5 @@
 
--- SEPET ANALİZİ SORGULARI
 -- Analiz scriptinin (scripts/sepet_analizi.py) ürettiği
-
 -- En güçlü birliktelik kuralları (lift'e göre)
 SELECT 
     urun_a,

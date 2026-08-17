@@ -3,10 +3,8 @@ Kategori Bazlı Sepet Analizi
 
 Bu script, ürün bazlı sepet analizinin (sepet_analizi.py) yaşadığı
 "az veri, çok ürün -> güvenilmez sonuç" problemini çözmek için
-aynı Apriori mantığını ÜRÜN yerine KATEGORİ seviyesinde uygular.
+aynı Apriori mantığını ÜRÜN yerine KATEGORİ seviyesinde uygular
 
-8 kategori olduğu için (120 ürüne kıyasla), her kombinasyon için
-çok daha fazla veri birikir -> sonuçlar istatistiksel olarak daha güvenilir olur.
 """
 
 import pandas as pd

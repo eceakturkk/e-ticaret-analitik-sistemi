@@ -1,6 +1,4 @@
 """
-Kategori Bazlı Sepet Analizi
-
 Bu script, ürün bazlı sepet analizinin (sepet_analizi.py) yaşadığı
 "az veri, çok ürün -> güvenilmez sonuç" problemini çözmek için
 aynı Apriori mantığını ÜRÜN yerine KATEGORİ seviyesinde uygular

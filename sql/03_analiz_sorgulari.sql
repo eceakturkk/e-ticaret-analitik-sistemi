@@ -1,5 +1,4 @@
 
--- ANALİZ SORGULARI 
 -- Metabase dashboard'undaki 6 grafiğin kaynağı
 
 -- 1. En çok satan ürünler (adet bazında)

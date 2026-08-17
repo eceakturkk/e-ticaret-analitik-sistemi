@@ -1,7 +1,5 @@
 """
-E-Ticaret Analitik Sistemi
-ETL Scripti (Orta Katman)
-
+ETL
 Bu script:
 - eticaret_oltp veritabanından ham veriyi çeker (Extract)
 - Star schema formatına dönüştürür (Transform)
